@@ -1,4 +1,23 @@
 module.exports = {
-  root: true,
-  extends: '@react-native',
+  env: {
+    browser: true,
+    es2021: true,
+  },
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended', // Add Prettier integration
+  ],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+    ecmaVersion: 12,
+    sourceType: 'module',
+  },
+  plugins: ['react', 'prettier'],
+  rules: {
+    'prettier/prettier': 'error', // Show prettier issues as ESLint errors
+    'react/react-in-jsx-scope': 'off', // For React 17+ (optional)
+  },
 };
