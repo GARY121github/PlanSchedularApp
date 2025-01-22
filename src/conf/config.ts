@@ -3,7 +3,7 @@ interface IConfig {
 }
 
 const config: IConfig = {
-    BACKEND_URL: 'http://localhost:8080',
+    BACKEND_URL: 'http://localhost:5080',
 }
 
 export default config;

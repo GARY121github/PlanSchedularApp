@@ -13,7 +13,11 @@ export default function AppRoutes() {
   return (
     <Tab.Navigator initialRouteName="Home">
         <Tab.Screen name='Home' component={Home} />
-        <Tab.Screen name='Add' component={AddPlan} />
+        <Tab.Screen name='Add' options={
+            {
+                title: 'Add Plan'
+            }
+        } component={AddPlan} />
     </Tab.Navigator>
   )
 }
