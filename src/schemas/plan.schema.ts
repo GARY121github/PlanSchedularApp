@@ -5,7 +5,7 @@ export const priorityEnum = zod.enum(["LOW", "MEDIUM", "HIGH"]);
 export const statusEnum = zod.enum(["TODO", "IN_PROGRESS", "DONE"]);
 
 const planSchema = zod.object({
-    id : zod.string().uuid().optional(),
+    id : zod.string().uuid(),
     name : zod
     .string()
     .min(2 , "Name should be atleast 2 characters long")

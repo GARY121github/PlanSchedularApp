@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import planService from '../../services/plan.service'
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import planService from '../../services/plan.service';
 import PlanCard from '../../components/PlanCard';
 import { Plan } from '../../schemas/plan.schema';
 
@@ -12,50 +13,52 @@ export default function Home() {
     setIsLoading(true);
     try {
       const response = await planService.getPlans();
-      if(!response.data){
-        throw new Error("No plans found");
+      if (!response.data) {
+        throw new Error('No plans found');
       }
       setPlans(response.data);
     } catch (error) {
-      console.log("Error while fetching plans", error);
+      console.error('Error while fetching plans:', error);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
-  useEffect(() => {
-    fetchPlans();
-  }, [])
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchPlans();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
-      {
-        isLoading ? <Text>Loading...</Text> : (
-          <View>
-            {
-              plans.length > 0 ? (
-                <View>
-                 {
-                  plans.map((plan : Plan) => (
-                    <PlanCard key={plan.id} {...plan} />
-                  ))
-                 }
-                </View>
-              ) : (
-                <Text>No plans found</Text> 
-              )
-            }
-          </View>
-        )
-      }
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <View style={styles.planSection}>
+          {plans.length > 0 ? (
+            <FlatList
+              data={plans}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <PlanCard {...item} />}
+            />
+          ) : (
+            <Text>No plans found</Text>
+          )}
+        </View>
+      )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+  planSection: {
+    width: '100%',
+    padding: 16,
+  },
+});

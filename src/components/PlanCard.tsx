@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { Plan } from '../schemas/plan.schema'
+import { Plan, Status } from '../schemas/plan.schema'
 
 export default function PlanCard({
-    id,
-    name,
-    description,
-    priority,
-    status
+  id,
+  name,
+  description,
+  priority,
+  status
 }: Plan) {
   // Determine the priority color
   const getPriorityColor = (priority: string) => {
@@ -23,6 +23,20 @@ export default function PlanCard({
     }
   }
 
+  // Determine the status color
+  const getStatusColor = (status: Status) => {
+    switch (status) {
+      case 'TODO':
+        return '#ff4d4d'; // Red
+      case 'IN_PROGRESS':
+        return '#ff9f00'; // Orange
+      case 'DONE':
+        return '#4caf50'; // Green
+      default:
+        return '#888'; // Gray
+    }
+  }
+
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{name}</Text>
@@ -31,7 +45,9 @@ export default function PlanCard({
         <Text style={[styles.status, { color: getPriorityColor(priority) }]}>
           Priority: {priority}
         </Text>
-        <Text style={styles.status}>Status: {status}</Text>
+        <Text style={[styles.status, { color: getStatusColor(status || "TODO") }]}>
+          Status: {status}
+          </Text>
       </View>
     </View>
   )
@@ -42,7 +58,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 16,
     marginVertical: 8,
-    marginHorizontal: 16,
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
