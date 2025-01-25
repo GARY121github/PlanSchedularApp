@@ -10,8 +10,8 @@ class PlanService {
             const response = await axios.get(`${BACKEND_URL}/plan`);
             return response.data;
         } catch (error) {
-            throw error;
             console.log("Error while fetching plans", error);
+            throw error;
         }
     }
 
@@ -20,8 +20,18 @@ class PlanService {
             const response = await axios.post(`${BACKEND_URL}/plan` , data);
             console.log(response);
         } catch (error) {
+            console.log("Error while creating a plan" , error);
             throw error;
-            console.log("Error while creating a plan");
+        }
+    }
+
+    public updatePlan = async (data : Plan) => {
+        try {
+            const response = await axios.patch(`${BACKEND_URL}/plan/${data.id}`, data);
+            console.log(response);
+        } catch (error) {
+            console.log("Error while updating the plan" , error);
+            throw error;
         }
     }
 }

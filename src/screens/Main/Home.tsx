@@ -39,8 +39,10 @@ export default function Home() {
           {plans.length > 0 ? (
             <FlatList
               data={plans}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => <PlanCard {...item} />}
+              contentContainerStyle={{ paddingBottom: 16 }} // Avoid overlap if the list has fewer items
+              keyboardShouldPersistTaps="handled"
             />
           ) : (
             <Text>No plans found</Text>
