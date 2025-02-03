@@ -16,6 +16,8 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import planSchema, {Plan} from "../../schemas/plan.schema";
 import planService from "../../services/plan.service";
+import { useAppDispatch } from "../../hooks/useRedux";
+import { updatePlan } from "../../store/slices/planSlice";
 
 interface EditPlanModalProps {
     visible: boolean;
@@ -25,6 +27,9 @@ interface EditPlanModalProps {
 }
 
 const EditPlanForm: React.FC<EditPlanModalProps> = ({ visible, onClose, plan, onSave }) => {
+
+    const dispatch = useAppDispatch();
+
     const {
         control,
         handleSubmit,
@@ -58,6 +63,7 @@ const EditPlanForm: React.FC<EditPlanModalProps> = ({ visible, onClose, plan, on
         setLoading(true);
         try {
             await planService.updatePlan(updatedPlan);
+            dispatch(updatePlan(updatedPlan));
             onSave(); // Notify parent component to refresh the plan list
             onClose(); // Close the modal
         } catch (error) {

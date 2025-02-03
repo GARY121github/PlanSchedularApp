@@ -4,19 +4,22 @@ import { useFocusEffect } from '@react-navigation/native';
 import planService from '../../services/plan.service';
 import PlanCard from '../../components/PlanCard';
 import { Plan } from '../../schemas/plan.schema';
+import { useAppSelector, useAppDispatch } from '../../hooks/useRedux'; 
+import { setPlans } from '../../store/slices/planSlice';
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [plans, setPlans] = useState<Plan[]>([]);
-
+  const plans = useAppSelector((state) => state.plans.plans);
+  const dispatch = useAppDispatch();
+  
   const fetchPlans = async () => {
     setIsLoading(true);
     try {
-      const response = await planService.getPlans();
+      const response : {data : Plan[]} = await planService.getPlans();
       if (!response.data) {
         throw new Error('No plans found');
       }
-      setPlans(response.data);
+      dispatch(setPlans(response.data));
     } catch (error) {
       console.error('Error while fetching plans:', error);
     } finally {

@@ -1,6 +1,6 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useDispatch, UseDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setHasLaunched } from '../../store/slices/onBoardingSlice'
 
 
